@@ -30,3 +30,13 @@ under a different name.
 
 The script output includes the digit index where the current best image starts.
 You probably want to make a note of that.
+
+PiFind has been tested on Ubuntu, Funtoo, and Windows (in `cmd.exe`), using Python versions from 3.6 to 3.10,
+so with luck it will work for you.
+
+Some additional little utility scripts are present:
+
+* `verify.py` verifies if any image file contains bits from π starting from a given index.
+  Call it as `python3 verify.py <index> <image file name>`
+
+
