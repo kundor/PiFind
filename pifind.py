@@ -255,10 +255,12 @@ for startpos, halfbyte in enumerate(dribble(pigen)):
         fitpal = makepalette(bytarr, colors)
         saveimg('found.gif', target.size, fitpal, bestbytes)
         if misrpt[0] == 0:
-            print(f"Success at {index}")
+            print(f"\nSuccess at {index}")
             break
     if not startpos % 5000:
         print(f'\rDigit {startpos:13,}', end='', flush=True)
     if deferinterrupt.nomore:
         print()
-        sys.exit('Interrupted. Best result is saved as found.gif.')
+        break
+sys.exit('Interrupted. Best result is saved as found.gif.\n'
+         f'It contains the {index+1}th through {index+numpix}th hexadecimal digits of π.')
