@@ -7,7 +7,9 @@ using a contiguous sequence from π as the pixel data.
 See https://kundor.github.io/Finding-Waldo/ for an example.
 
 The script requires the Python package [Pillow](https://python-pillow.org/).
-You can probably install it by running the command `python3 -m pip install Pillow`.
+You can probably install it by running the command
+
+`python3 -m pip install Pillow`.
 
 Otherwise, I've written it to only use the standard library, so it should run
 with Python 3 (probably with versions 3.6+).
