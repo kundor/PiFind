@@ -21,7 +21,6 @@ import os
 import sys
 import signal
 from collections import Counter, deque
-from itertools import islice
 from PIL import Image
 
 HEXFILE = 'pi_hex_1b.txt'
