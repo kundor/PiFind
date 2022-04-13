@@ -14,7 +14,7 @@ You can probably install it by running the command
 Otherwise, I've written it to only use the standard library, so it should run
 with Python 3 (probably with versions 3.6+).
 
-1. Download the script `pifind.py`
+1. Download the script `pifind.py`  (Note: you only need this file, not the whole repository.)
 2. Optionally, download `pi_hex_1b.zip` from [archive.org/details/pi\_hex\_1b](https://archive.org/details/pi_hex_1b)
    and place it in the same directory.
    This will speed up the search. Otherwise, digits will be fetched from the Web at https://pi.delivery.
@@ -41,4 +41,9 @@ Some additional little utility scripts are present:
 * `makeimage.py` creates an image approximating a given image with bits starting from a given index.
   This is handy if you already know the offset and don't want to spend time searching through π.  
   Call it like `python3 makeimage.py <index> <target image> <new image>`
-
+* `haystack.py` creates a giant image of the first 100 million hexadecimal digits of π, colored with the
+  palette from a found image, and aligned so that the image shows up.
+  The image has to be present in the first 100 million hex digits!
+  This one requires `pi_hex_1b.txt` to be present, unlike the other scripts (which require an
+  internet connection instead).  
+  Call it like `python3 haystack.py <found image> <new image>`

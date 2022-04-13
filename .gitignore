@@ -135,6 +135,7 @@ dmypy.json
 target.png
 newtarget.png
 found.gif
+haystack.png
 
 # Pi data files
 pi_hex_1*.txt
