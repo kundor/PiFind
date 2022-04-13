@@ -38,5 +38,7 @@ Some additional little utility scripts are present:
 
 * `verify.py` verifies if any image file contains bits from π starting from a given index.  
   Call it like `python3 verify.py <index> <image file name>`
-
+* `makeimage.py` creates an image approximating a given image with bits starting from a given index.
+  This is handy if you already know the offset and don't want to spend time searching through π.  
+  Call it like `python3 makeimage.py <index> <target image> <new image>`
 
