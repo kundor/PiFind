@@ -30,7 +30,7 @@ ZIPFILE = 'pi_hex_1b.zip'
 def PiFileReader(fid, numread=10_000_000):
     """Given a file-like object, containing text hexadecimal digits,
     yield lists of numread digits. fid should provide bytes."""
-    fid.seek(2) # skip '3.'
+    fid.read(2) # skip '3.'. ZipExtFile doesn't support seek until 3.7, so read and discard.
     while True:
         data = fid.read(numread)
         yield data
