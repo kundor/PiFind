@@ -23,6 +23,7 @@ def getpihex(start, number):
         hexits = getcontent(url)
         result += hexits
         number -= len(hexits)
+        start += len(hexits)
     return result
 
 start = int(sys.argv[1])
