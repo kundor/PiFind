@@ -55,7 +55,7 @@ def PiDelivery(numread=1000): # 1000 is the max digits supported per request
             j = json.load(req)
             yield j['content'].encode()
         start += numread
-    
+
 def colhex(col):
     """RGB hex code #000000 for a color triple."""
     return '#' + ''.join(f'{c:02X}' for c in col)
@@ -142,7 +142,7 @@ numcol = len(C)
 if numcol > 6:
     print(f'target.png has {numcol} colors, which is too many.')
     colorsummary(C)
-    print('Should we:', 
+    print('Should we:',
           '1. Limit to the most common {3, 4, 5, or 6} colors?',
           '2. Try to identify colors which are close to eachother?',
           '3. Quit to edit the image?', sep='\n\t')
@@ -197,7 +197,7 @@ def countmismatch(bytarr):
 def status(startpos, minmisrpt, index, bestbytes):
     """Print a status line (overwriting current line)."""
     bytepreview = bestbytes[:12].hex()
-    print(f'\rDigit {startpos:13,}', 
+    print(f'\rDigit {startpos:13,}',
           f'Best match at {index:12,}',
           f'Pixel mismatches {minmisrpt}',
           f'Bytes {bytepreview}…',
@@ -207,7 +207,7 @@ def makepalette(bytarr, colors):
     """Create a palette (list of 256 RGB triples) mapping each byte to the weighted
     average of its colors.
     """
-    return [colavg(dict(zip(colors, b))) for b in bytarr] 
+    return [colavg(dict(zip(colors, b))) for b in bytarr]
 
 def flatten(pal):
     """list of 256 triples -> list of 768"""
