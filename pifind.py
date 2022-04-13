@@ -206,14 +206,15 @@ def countmismatch(bytarr):
             muddle += totpix
     return mis, muddle
 
+def headline():
+    """Print headers for the status line."""
+    print('Digits checked  Best match at  Pixel mismatches  Bytes in match')
+    print('--------------  -------------  ----------------  --------------')
+
 def status(startpos, minmisrpt, index, bestbytes):
     """Print a status line (overwriting current line)."""
     bytepreview = bestbytes[:12].hex()
-    print(f'\rDigit {startpos:13,}',
-          f'Best match at {index:12,}',
-          f'Pixel mismatches {minmisrpt}',
-          f'Bytes {bytepreview}…',
-          end='', flush=True)
+    print(f'\r{startpos:14,}  {index:13,}  {minmisrpt!s:16}  {bytepreview}…', end='', flush=True)
 
 def makepalette(bytarr, colors):
     """Create a palette (list of 256 RGB triples) mapping each byte to the weighted
@@ -256,6 +257,8 @@ minmisrpt = (numpix, numpix)
 
 signal.signal(signal.SIGINT, deferinterrupt)
 
+headline()
+
 for startpos, halfbyte in enumerate(dribble(pigen)):
     cur, other = other, cur
     cur.append(oldhalf << 4 | halfbyte)
@@ -277,7 +280,7 @@ for startpos, halfbyte in enumerate(dribble(pigen)):
             print(f"\nSuccess at {index}")
             break
     if not startpos % 5000:
-        print(f'\rDigit {startpos:13,}', end='', flush=True)
+        print(f'\r{startpos:14,}', end='', flush=True)
     if deferinterrupt.nomore:
         print()
         break
