@@ -108,7 +108,14 @@ def colorfamilies(C, dist=250):
             families[col] = {col: num}
     return Counter({colavg(wts) : sum(wts.values()) for wts in families.values()})
 
-def reducecolors(C):
+def sievecolors(C, numpix):
+    """Make a list of the colors in a Counter with non-trivial numbers of pixels.
+    Ignore colors covering less than 1% of the image.
+    """
+    thresh = max(round(.01*numpix), 2)
+    return [col for col in C if C[col] > thresh]
+
+def reducecolors(C, numpix):
     """Iterate color family reduction, trying to merge families."""
     numcol = len(C)
     oldnum = numcol + 1
@@ -119,7 +126,7 @@ def reducecolors(C):
         oldnum = numcol
         C = colorfamilies(C, dist)
         numcol = len(C)
-    return list(C.keys())
+    return sievecolors(C, numpix)
 
 def recolor(img, colors):
     """Create a version of img with colors limited to those given."""
@@ -153,7 +160,7 @@ if numcol > 6:
             sys.exit('Invalid choice')
         colors = [col for col, num in C.most_common(numcol)]
     elif choice == '2':
-        colors = reducecolors(C)
+        colors = reducecolors(C, numpix)
         numcol = len(colors)
         if numcol > 6:
             print(f'Sorry, I was only able to reduce it to {numcol} families of nearby colors,'
