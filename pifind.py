@@ -135,7 +135,7 @@ def recolor(img, colors):
     return newimg
 
 def printpattern(pat, width, height):
-    """Print a list of  in the shape of the target image."""
+    """Print a list of ints in the shape given."""
     lines = [''.join(str(i) for i in pat[width*j:width*(j+1)]) for j in range(height)]
     print(*lines, sep='\n')
 
