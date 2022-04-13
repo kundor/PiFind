@@ -221,12 +221,19 @@ def saveimg(name, size, palette, byts):
     img.putpalette(flatten(palette))
     img.putdata(byts)
     img.save(name)
- 
+
 def deferinterrupt(signum, frame):
     """Wait for nice point before quitting, unless re-signaled."""
     if deferinterrupt.nomore:
         raise KeyboardInterrupt
     deferinterrupt.nomore = True
+
+def ordinal(n):
+    """Ordinal version (1st, 2nd, 3rd, 4th, ...) of n."""
+    ends = ['th', 'st', 'nd', 'rd', 'th']
+    if (n % 100) // 10 == 1:
+        return f'{n:,}th'
+    return f'{n:,}' + ends[min(n%10, 4)]
 
 deferinterrupt.nomore = False
 
@@ -263,4 +270,4 @@ for startpos, halfbyte in enumerate(dribble(pigen)):
         print()
         break
 sys.exit('Interrupted. Best result is saved as found.gif.\n'
-         f'It contains the {index+1}th through {index+numpix}th hexadecimal digits of π.')
+         f'It contains the {ordinal(index+1)} through {ordinal(index+numpix)} hexadecimal digits of π.')
