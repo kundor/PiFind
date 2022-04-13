@@ -256,8 +256,11 @@ oldhalf = 3
 minmisrpt = (numpix, numpix)
 
 signal.signal(signal.SIGINT, deferinterrupt)
+signal.signal(signal.SIGTERM, deferinterrupt)
 if hasattr(signal, 'SIGBREAK'):
     signal.signal(signal.SIGBREAK, deferinterrupt)
+if hasattr(signal, 'SIGQUIT'):
+    signal.signal(signal.SIGQUIT, deferinterrupt)
 
 headline()
 
