@@ -36,7 +36,7 @@ so with luck it will work for you.
 
 Some additional little utility scripts are present:
 
-* `verify.py` verifies if any image file contains bits from π starting from a given index.
-  Call it as `python3 verify.py <index> <image file name>`
+* `verify.py` verifies if any image file contains bits from π starting from a given index.  
+  Call it like `python3 verify.py <index> <image file name>`
 
 
