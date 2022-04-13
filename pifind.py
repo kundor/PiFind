@@ -263,7 +263,7 @@ if hasattr(signal, 'SIGQUIT'):
     signal.signal(signal.SIGQUIT, deferinterrupt)
 
 headline()
-
+message = 'Finished'
 for startpos, halfbyte in enumerate(dribble(pigen)):
     cur, other = other, cur
     cur.append(oldhalf << 4 | halfbyte)
@@ -282,12 +282,13 @@ for startpos, halfbyte in enumerate(dribble(pigen)):
         fitpal = makepalette(bytarr, colors)
         saveimg('found.gif', target.size, fitpal, bestbytes)
         if misrpt[0] == 0:
-            print(f"\nSuccess at {index}")
+            message = f'Success at {index}'
             break
     if not startpos % 5000:
         print(f'\r{startpos:14,}', end='', flush=True)
     if deferinterrupt.nomore:
+        message = 'Interrupted'
         break
-sys.exit('\nInterrupted. Best result is saved as found.gif.\n'
+sys.exit(f'\n{message}. Best result is saved as found.gif.\n'
          f'It contains the {ordinal(index+1)} through {ordinal(index+2*numpix)} hexadecimal digits of π.\n'
          f'Equivalently, the {ordinal(4*index+1)} through {ordinal(4*index+8*numpix)} bits.')
