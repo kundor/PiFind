@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Vim
+*.sw[po]
+
+# Input/output images
+target.png
+newtarget.png
+found.gif
