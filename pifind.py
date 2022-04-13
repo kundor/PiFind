@@ -134,6 +134,11 @@ def recolor(img, colors):
     newimg.putdata([colpick(colors, c) for c in img.getdata()])
     return newimg
 
+def printpattern(pat, width, height):
+    """Print a list of  in the shape of the target image."""
+    lines = [''.join(str(i) for i in pat[width*j:width*(j+1)]) for j in range(height)]
+    print(*lines, sep='\n')
+
 if os.path.exists(HEXFILE):
     pigen = PiFileReader(open(HEXFILE, 'rb'))
 elif os.path.exists(ZIPFILE):
@@ -177,7 +182,7 @@ print(f'Selected {numcol} colors for the pattern.')
 pattern = [colors.index(colpick(colors, c)) for c in target.getdata()]
 colorsummary(Counter(colors[i] for i in pattern))
 print('Pattern of colors to try to match:')
-print(''.join(str(i) for i in pattern))
+printpattern(pattern, *target.size)
 
 def dribble(gen):
     for bunch in gen:
