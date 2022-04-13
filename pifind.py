@@ -225,8 +225,8 @@ def makepalette(bytarr, colors):
 def flatten(pal):
     """list of 256 triples -> list of 768"""
     flatpal = []
-    for i in range(256):
-        flatpal.extend(pal[i])
+    for col in pal:
+        flatpal.extend(col)
     return flatpal
 
 def saveimg(name, size, palette, byts):
