@@ -239,6 +239,7 @@ def deferinterrupt(signum, frame):
     if deferinterrupt.nomore:
         raise KeyboardInterrupt
     deferinterrupt.nomore = True
+deferinterrupt.nomore = False
 
 def ordinal(n):
     """Ordinal version (1st, 2nd, 3rd, 4th, ...) of n."""
@@ -246,8 +247,6 @@ def ordinal(n):
     if (n % 100) // 10 == 1:
         return f'{n:,}th'
     return f'{n:,}' + ends[min(n%10, 4)]
-
-deferinterrupt.nomore = False
 
 cur = deque(maxlen=numpix)  # bytes constructed from even-aligned hex digits 3.'24','3f','6a', etc.
 other = deque(maxlen=numpix) # bytes constructed from odd-aligned hex digits '32' '43', 'f6', 'a8', etc.
