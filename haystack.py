@@ -12,6 +12,7 @@ import os
 import sys
 from math import sqrt
 from zipfile import ZipFile
+from itertools import product
 from PIL import Image
 
 HEXFILE = 'pi_hex_1b.txt'
@@ -39,8 +40,38 @@ if target.mode != 'P':
 width, height = target.size
 numpix = width*height
 palette = target.getpalette()
+palette = list(zip(palette[::3], palette[1::3], palette[2::3]))
 imgbytes = target.tobytes()
 imghex = imgbytes.hex()
+
+# Some of the palette entries may be unused.
+# This results in a monotonous haystack with less variety of color than otherwise.
+# Fill in the unused entries with some different colors (from the WebSafe palette).
+unused = set(range(256)) - set(imgbytes)
+
+def coldist(col1, col2):
+    """Simple color distance metric."""
+    return sum((a-b)**2 for a,b in zip(col1, col2))
+
+def mindist(col):
+    """Min distance of col from any member of palette."""
+    return min(coldist(c, col) for c in palette)
+
+def flatten(pal):
+    """list of 256 triples -> list of 768"""
+    flatpal = []
+    for col in pal:
+        flatpal.extend(col)
+    return flatpal
+
+if {palette[u] for u in unused} != {(0, 0, 0)}:
+    print("The unused palette entries are not all black, as I'd expect (and as "
+          "pifind or makeimage would produce them). So we'll use the palette "
+          "as-is and not reassign unused entries.")
+else:
+    websafe = sorted(product(range(0,256,51), repeat=3), key=mindist, reverse=True)
+    for byt, col in zip(unused, websafe):
+        palette[byt] = col
 
 try:
     index = pihex.index(imghex)
@@ -72,6 +103,6 @@ for r in range(rows):
             haydata.extend(rowtiles[c][h])
 
 haystack = Image.new('P', haysize)
-haystack.putpalette(palette)
+haystack.putpalette(flatten(palette))
 haystack.putdata(haydata)
 haystack.save(newname)
