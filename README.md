@@ -47,3 +47,6 @@ Some additional little utility scripts are present:
   This one requires `pi_hex_1b.zip` to be present, unlike the other scripts (which require an
   internet connection instead).  
   Call it like `python3 haystack.py <found image> <new image>`
+* `depalette.py` removes the palette from an image and saves the same data interpreted as grayscale
+  and with the [Plan9 palette](https://purisa.me/blog/plan9-cube/).  
+  Call it like `python3 depalette.py <found image> <new grayscale image> <new plan9 image>`
