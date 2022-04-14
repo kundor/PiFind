@@ -132,11 +132,12 @@ dmypy.json
 *.sw[po]
 
 # Input/output images
-target.png
-newtarget.png
-found.gif
-haystack.png
+*.png
+*.gif
 
 # Pi data files
 pi_hex_1*.txt
 pi_hex_1*.zip
+
+# binary
+pifind
