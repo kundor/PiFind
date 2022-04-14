@@ -6,13 +6,31 @@ and with the Plan9 palette.
 import argparse
 from PIL import Image
 
-parser = argparse.ArgumentParser(description="Re-save the pixel data from an image with standard palettes.")
-parser.add_argument('original', type=str, help='the original paletted image file')
-parser.add_argument('newname1', type=str, help='the name for the grayscale image to create')
-parser.add_argument('newname2', type=str, help='the name for the Plan9 image to create')
+def valid_image(name):
+    """Open the given filename as an image.
+    Convert exceptions to ArgumentTypeError for use with argparse.
+    """
+    try:
+        return Image.open(name)
+    except FileNotFoundError:
+        raise argparse.ArgumentTypeError(f'No such file: "{name}"')
+    except (OSError, IOError) as e:
+        raise argparse.ArgumentTypeError(e)
+
+def check_ext(name):
+    """Check if filename has an extension recognized by Pillow."""
+    ext = name.split('.')[-1]
+    if ('.'+ext) not in Image.registered_extensions():
+        raise argparse.ArgumentTypeError(f'"{name}" does not end in a recognized image extension')
+    return name
+
+parser = argparse.ArgumentParser(description='Re-save the pixel data from an image with standard palettes.')
+parser.add_argument('original', type=valid_image, help='The original paletted image file')
+parser.add_argument('newname1', type=check_ext, help='The name for the grayscale image to create')
+parser.add_argument('newname2', type=check_ext, help='The name for the Plan9 image to create')
 args = parser.parse_args()
 
-oldim = Image.open(args.original)
+oldim = args.original
 if oldim.mode != 'P':
     sys.exit('Given image must be paletted (as produced by pifind)')
 data = list(oldim.getdata())

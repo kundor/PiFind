@@ -10,6 +10,7 @@ https://archive.org/details/pi_hex_1b is required in the same directory.
 import io
 import os
 import sys
+import argparse
 from math import sqrt
 from zipfile import ZipFile
 from itertools import product
@@ -18,6 +19,30 @@ from PIL import Image
 HEXFILE = 'pi_hex_1b.txt'
 ZIPFILE = 'pi_hex_1b.zip'
 HEXDIGS = 100_000_000
+
+def valid_image(name):
+    """Open the given filename as an image.
+    Convert exceptions to ArgumentTypeError for use with argparse.
+    """
+    try:
+        return Image.open(name)
+    except FileNotFoundError:
+        raise argparse.ArgumentTypeError(f'No such file: "{name}"')
+    except (OSError, IOError) as e:
+        raise argparse.ArgumentTypeError(e)
+
+def check_ext(name):
+    """Check if filename has an extension recognized by Pillow."""
+    ext = name.split('.')[-1]
+    return ('.'+ext) in Image.registered_extensions()
+
+parser = argparse.ArgumentParser(description='Create a giant (50 megapixel) image containing the given image found in π.')
+parser.add_argument('original', type=valid_image, help='The original image found in π')
+parser.add_argument('newname', type=str, help='The new image which will be created')
+args = parser.parse_args()
+
+if not check_ext(args.newname):
+    sys.exit(f'"{args.newname}" does not end in a recognized image extension')
 
 if os.path.exists(HEXFILE):
     with open(HEXFILE) as fid:
@@ -32,9 +57,7 @@ elif os.path.exists(ZIPFILE):
 else:
     sys.exit(f'Either {HEXFILE} or {ZIPFILE} must be provided in the working directory.')
 
-imgname = sys.argv[1]
-newname = sys.argv[2]
-target = Image.open(imgname)
+target = args.original
 if target.mode != 'P':
     sys.exit('Given image must be paletted (as produced by pifind)')
 width, height = target.size
@@ -105,4 +128,4 @@ for r in range(rows):
 haystack = Image.new('P', haysize)
 haystack.putpalette(flatten(palette))
 haystack.putdata(haydata)
-haystack.save(newname)
+haystack.save(args.newname)
