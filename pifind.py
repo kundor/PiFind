@@ -210,10 +210,10 @@ def headline():
     print('Digits checked  Best match at  Pixel mismatches  Bytes in match')
     print('--------------  -------------  ----------------  --------------')
 
-def status(startpos, minmisrpt, index, bestbytes):
+def status(pos, minmisrpt, index, bestbytes):
     """Print a status line (overwriting current line)."""
     bytepreview = bestbytes[:12].hex()
-    print(f'\r{startpos:14,}  {index:13,}  {minmisrpt!s:16}  {bytepreview}…', end='', flush=True)
+    print(f'\r{pos:14,}  {index:13,}  {minmisrpt!s:16}  {bytepreview}…', end='', flush=True)
 
 def makepalette(bytarr, colors):
     """Create a palette (list of 256 RGB triples) mapping each byte to the weighted
@@ -262,7 +262,7 @@ if hasattr(signal, 'SIGQUIT'):
 
 headline()
 message = 'Finished'
-for startpos, halfbyte in enumerate(dribble(pigen)):
+for pos, halfbyte in enumerate(dribble(pigen)):
     cur, other = other, cur
     cur.append(oldhalf << 4 | halfbyte)
     oldhalf = halfbyte
@@ -274,16 +274,16 @@ for startpos, halfbyte in enumerate(dribble(pigen)):
     misrpt = countmismatch(bytarr)
     if misrpt < minmisrpt:
         minmisrpt = misrpt
-        index = startpos - numpix*2 + 1
+        index = pos - numpix*2 + 1
         bestbytes = bytes(cur)
-        status(startpos, minmisrpt, index, bestbytes)
+        status(pos, minmisrpt, index, bestbytes)
         fitpal = makepalette(bytarr, colors)
         saveimg('found.gif', target.size, fitpal, bestbytes)
         if misrpt[0] == 0:
             message = f'Success at {index}'
             break
-    if not startpos % 5000:
-        print(f'\r{startpos:14,}', end='', flush=True)
+    if not pos % 5000:
+        print(f'\r{pos:14,}', end='', flush=True)
     if deferinterrupt.nomore:
         message = 'Interrupted'
         break
