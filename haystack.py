@@ -28,7 +28,7 @@ def valid_image(name):
         return Image.open(name)
     except FileNotFoundError:
         raise argparse.ArgumentTypeError(f'No such file: "{name}"')
-    except (OSError, IOError) as e:
+    except OSError as e:
         raise argparse.ArgumentTypeError(e)
 
 def check_ext(name):
