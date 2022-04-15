@@ -8,6 +8,7 @@ attempting to make it look like the original.
 import json
 import argparse
 from urllib import request
+from itertools import chain
 from collections import Counter
 from PIL import Image
 
@@ -39,13 +40,6 @@ def colavg(wts):
     if not totct:
         return (0, 0, 0)
     return (round(R/totct), round(G/totct), round(B/totct))
-
-def flatten(pal):
-    """list of 256 triples -> list of 768"""
-    flatpal = []
-    for col in pal:
-        flatpal.extend(col)
-    return flatpal
 
 def valid_image(name):
     """Open the given filename as an image.
@@ -84,6 +78,6 @@ for byt, col in zip(pixbytes, colors):
 palette = [colavg(b) for b in bytarr]
 
 img = Image.new('P', target.size)
-img.putpalette(flatten(palette))
+img.putpalette(chain(*palette))
 img.putdata(pixbytes)
 img.save(args.out)

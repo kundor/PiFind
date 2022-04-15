@@ -20,6 +20,7 @@ The best image found so far is saved as found.gif.
 import os
 import sys
 import signal
+from itertools import chain
 from collections import Counter, deque
 from PIL import Image
 
@@ -221,16 +222,10 @@ def makepalette(bytarr, colors):
     """
     return [colavg(dict(zip(colors, b))) for b in bytarr]
 
-def flatten(pal):
-    """list of 256 triples -> list of 768"""
-    flatpal = []
-    for col in pal:
-        flatpal.extend(col)
-    return flatpal
-
 def saveimg(name, size, palette, byts):
     img = Image.new('P', size)
-    img.putpalette(flatten(palette))
+    # chain flattens the list of 256 triples to an iterator of 768 values
+    img.putpalette(chain(*palette))
     img.putdata(byts)
     img.save(name)
 

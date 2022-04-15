@@ -13,7 +13,7 @@ import sys
 import argparse
 from math import sqrt
 from zipfile import ZipFile
-from itertools import product
+from itertools import chain, product
 from PIL import Image
 
 HEXFILE = 'pi_hex_1b.txt'
@@ -80,13 +80,6 @@ def mindist(col):
     """Min distance of col from any member of palette."""
     return min(coldist(c, col) for c in palette)
 
-def flatten(pal):
-    """list of 256 triples -> list of 768"""
-    flatpal = []
-    for col in pal:
-        flatpal.extend(col)
-    return flatpal
-
 if {palette[u] for u in unused} != {(0, 0, 0)}:
     print("The unused palette entries are not all black, as I'd expect (and as "
           "pifind or makeimage would produce them). So we'll use the palette "
@@ -126,6 +119,6 @@ for r in range(rows):
             haydata.extend(rowtiles[c][h])
 
 haystack = Image.new('P', haysize)
-haystack.putpalette(flatten(palette))
+haystack.putpalette(chain(*palette))
 haystack.putdata(haydata)
 haystack.save(args.newname)
