@@ -287,6 +287,6 @@ for pos, halfbyte in enumerate(dribble(pigen)):
     if deferinterrupt.nomore:
         message = 'Interrupted'
         break
-sys.exit(f'\n{message}. Best result is saved as found.gif.\n'
-         f'It contains the {ordinal(index+1)} through {ordinal(index+2*numpix)} hexadecimal digits of π.\n'
-         f'Equivalently, the {ordinal(4*index+1)} through {ordinal(4*index+8*numpix)} bits.')
+print(f'\n{message}. Best result is saved as found.gif.\n'
+      f'It contains the {ordinal(index+1)} through {ordinal(index+2*numpix)} hexadecimal digits of π.\n'
+      f'Equivalently, the {ordinal(4*index+1)} through {ordinal(4*index+8*numpix)} bits.')
